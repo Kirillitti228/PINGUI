@@ -146,8 +146,9 @@
     try {
       await db.runTransaction(async tx=>{
         const existing=await tx.get(nameRef);
-        if(existing.exists) throw new Error("USERNAME_TAKEN");
-        tx.set(nameRef,{uid:user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        // A username claim already owned by this account can be safely reused during profile recovery.
+        if(existing.exists && existing.data().uid!==user.uid) throw new Error("USERNAME_TAKEN");
+        if(!existing.exists) tx.set(nameRef,{uid:user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
         tx.set(userRef,{
           uid:user.uid,email:user.email||null,nickname,username,language:selectedLanguage,
           provider:(user.providerData[0]&&user.providerData[0].providerId)||"password",

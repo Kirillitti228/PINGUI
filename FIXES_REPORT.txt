@@ -1,0 +1,21 @@
+PINGUI 3.0 - FIXES REPORT
+
+Changes made
+1. MCQ practice choice buttons now use explicit button type, group labeling, and aria-pressed state.
+2. Choice selection is handled in a capture-phase delegated click listener so it is not lost if a later bubbling handler interferes.
+3. Lesson quick-check wrong answers no longer unlock lesson completion. Incorrect choices can be retried; only a correct answer unlocks completion and XP.
+4. PINGUI brand link/action now returns to Home.
+5. Profile setup can reuse a username claim already owned by the same Firebase UID, instead of incorrectly treating it as taken.
+
+Preserved
+- Firebase web configuration.
+- Firestore rules.
+- Firestore collection/document names and profile fields.
+- Existing lesson/practice content and user records.
+
+Checks
+- app.js and firebase-auth.js pass Node syntax checks.
+- Practice bank: 50 tasks (25 MCQ, 15 text, 10 sentence-order); all task fields and MCQ answer-option matches validated.
+- HTML IDs: no duplicates found.
+- Local HTML asset references: no missing files found.
+- Automated browser click testing could not be completed in this environment because Chromium navigation was blocked by administrator policy. Please manually test the corrected buttons after replacing the files.
